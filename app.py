@@ -1,24 +1,22 @@
 from flask import Flask, render_template, request, redirect, url_for, send_file
 import os
 import csv
-import pickle  # You might not need pickle anymore
+import pickle 
 from werkzeug.utils import secure_filename
-from utils import process_file, create_database, get_config_from_db  # Import necessary functions
+from utils import process_file, create_database, get_config_from_db  
 from datetime import datetime, timedelta
 import pandas as pd
 import sqlite3
-import requests  # Add this for sending HTTP requests to Telegram API
+import requests  
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
-app.config['CONFIG_FILE'] = 'config.pkl'  # You might not need this anymore
-app.secret_key = 'your-secret-key-here'  # Replace with a strong secret key
+app.config['CONFIG_FILE'] = 'config.pkl'  
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-create_database()  # Call create_database() ONCE when the app starts
+create_database()
 
-# Telegram Bot Configuration
-TELEGRAM_BOT_TOKEN = '8027734841:AAE-7CNezqqstzIaqF8M1tVU10tvE5LkFgI'  # Replace with your bot token
-TELEGRAM_CHAT_ID = '7565137984'  # Replace with the user's chat ID (numeric value)
+TELEGRAM_BOT_TOKEN = ''  # Replace with  bot token
+TELEGRAM_CHAT_ID = ''  # Replace with the user's chat ID 
 
 # Function to send Telegram notification
 def send_telegram_notification(message):
@@ -40,8 +38,7 @@ def send_telegram_notification(message):
 def camera1():
     config = get_config_from_db()
     vehicles_on_highway = []
-    vehicles_at_point = {}  # Initialize vehicles_at_point HERE
-    # Clear the vehicles table at the beginning of the route (Option 1)
+    vehicles_at_point = {}  
     try:
         conn = sqlite3.connect('vehicle_data.db')
         cursor = conn.cursor()
@@ -73,14 +70,14 @@ def camera1():
             file.save(filepath)
             process_file(filepath, 'A', vehicles_at_point)  # Pass vehicles_at_point
         speed_limits = {
-            'car': int(request.form.get('car_speed', 60)),  # Use default if not provided
+            'car': int(request.form.get('car_speed', 60)),  
             'motorcycle': int(request.form.get('motorcycle_speed', 80)),
             'bus': int(request.form.get('bus_speed', 50)),
             'truck': int(request.form.get('truck_speed', 55))
         }
         conn = sqlite3.connect('vehicle_data.db')
         cursor = conn.cursor()
-        for setting, value in speed_limits.items():  # Store speed limits in config table
+        for setting, value in speed_limits.items():  
             cursor.execute("INSERT OR REPLACE INTO config (setting, value) VALUES (?, ?)", (f"speed_{setting}", str(value)))
         conn.commit()
         conn.close()
@@ -106,7 +103,7 @@ def time_settings():
     except Exception as e:
         print(f"Error loading vehicle data: {str(e)}")
     if request.method == 'POST':
-        distance = int(request.form.get('distance', 1000))  # Use default if not provided
+        distance = int(request.form.get('distance', 1000))  
         time_difference = int(request.form.get('time_difference', 10))
         conn = sqlite3.connect('vehicle_data.db')
         cursor = conn.cursor()
@@ -119,8 +116,7 @@ def time_settings():
 
 @app.route('/camera2', methods=['GET', 'POST'])
 def camera2():
-    vehicles_at_point = {}  # Initialize vehicles_at_point HERE
-    # Populate vehicles_at_point from the database
+    vehicles_at_point = {}  
     try:
         conn = sqlite3.connect('vehicle_data.db')
         cursor = conn.cursor()
@@ -137,7 +133,7 @@ def camera2():
             filename = secure_filename(file.filename)
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], 'camera2_' + filename)
             file.save(filepath)
-            process_file(filepath, 'B', vehicles_at_point)  # Pass vehicles_at_point
+            process_file(filepath, 'B', vehicles_at_point) 
         return redirect(url_for('results'))
     return render_template('camera2.html')
 
@@ -151,27 +147,26 @@ def results():
         cursor.execute("SELECT * FROM speed_results")
         rows = cursor.fetchall()  # Fetch all rows first
         conn.close()
-        print(f"Number of rows retrieved from speed_results: {len(rows)}")  # CRITICAL: Check how many rows
+        print(f"Number of rows retrieved from speed_results: {len(rows)}")  
         for row in rows:
-            print(f"Row from speed_results: {row}")  # CRITICAL: Print each row
+            print(f"Row from speed_results: {row}")  
             try:
                 row_dict = {
                     'vehicle_type': row[2],
                     'license_plate_text': row[1],
                     'entry_time': datetime.strptime(row[3], "%Y-%m-%d %H:%M:%S"),
                     'exit_time': datetime.strptime(row[4], "%Y-%m-%d %H:%M:%S"),
-                    'speed_kmh': float(row[5])  # Keep the original value as a float
+                    'speed_kmh': float(row[5])  
                 }
-                # Add the formatted speed (no decimal places) - RIGHT HERE:
-                row_dict['speed_kmh'] = float(row[5])    # Format to 0 decimal places
+             
+                row_dict['speed_kmh'] = float(row[5])    
                 duration = row_dict['exit_time'] - row_dict['entry_time']
                 row_dict['duration'] = str(duration)
                 vehicle_type = row_dict['vehicle_type'].lower()
-                speed_limit = config.get(f"speed_{vehicle_type}", 0)  # Get speed limit from config
+                speed_limit = config.get(f"speed_{vehicle_type}", 0) 
                 row_dict['speed_limit'] = speed_limit
-                row_dict['over_speed'] = row_dict['speed_kmh'] > speed_limit  # Use the original speed for comparison
+                row_dict['over_speed'] = row_dict['speed_kmh'] > speed_limit  
                 
-                # Send Telegram notification if the vehicle is over-speeding
                 if row_dict['over_speed']:
                     message = f"""
 🚨 SPEEDING ALERT 🚨
@@ -190,10 +185,10 @@ This vehicle has exceeded the speed limit!
                 results.append(row_dict)
             except Exception as e:
                 print(f"Error processing row: {e}")
-                continue  # Continue to the next row if there's an error
+                continue  
     except Exception as e:
         print(f"Error loading speed results: {str(e)}")
-    print(f"Results list: {results}")  # CRITICAL: Print the final results list
+    print(f"Results list: {results}") 
     return render_template('results.html', results=results)
 
 @app.route('/download-report')
