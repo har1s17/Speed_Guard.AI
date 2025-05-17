@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeedGuard.AI - Advanced Point-to-Point Speed Detection</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-text {
+            background: linear-gradient(45deg, #3B82F6, #10B981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .cyber-bg {
+            background: linear-gradient(120deg, #000235 0%, #1a365d 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cyber-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(26, 54, 93, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(26, 54, 93, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(20px); }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .radar-ping {
+            position: relative;
+        }
+
+        .radar-ping::before {
+            content: '';
+            position: absolute;
+            border: 2px solid #3B82F6;
+            border-radius: 50%;
+            animation: ping 2s ease-out infinite;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        @keyframes ping {
+            0% {
+                transform: scale(0.2);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .hover-lift {
+            transition: transform 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-2px);
+        }
+
+        .speed-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .speed-line {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            height: 100%;
+            width: 1px;
+            animation: speedLine 3s linear infinite;
+        }
+
+        @keyframes speedLine {
+            0% { transform: translateX(100vw); }
+            100% { transform: translateX(-100vw); }
+        }
+    </style>
+</head>
+<body class="cyber-bg min-h-screen text-white">
+    <div class="cyber-grid"></div>
+    <div class="speed-lines" id="speedLines"></div>
+
+    <!-- Navigation -->
+    <nav class="relative z-10 glass-card">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-shield-alt text-3xl text-blue-500 mr-2"></i>
+                    <span class="text-2xl font-bold gradient-text">SpeedGuard.AI</span>
+                </div>
+                <div class="flex space-x-8">
+                    <a href="#features" class="hover-lift">Features</a>
+                    <a href="#how-it-works" class="hover-lift">How It Works</a>
+                    <a href="#dashboard" class="hover-lift">Dashboard</a>
+                    <button class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-full transition duration-300">
+                        Get Started
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative z-10 container mx-auto px-6 py-20">
+        <div class="flex items-center justify-between">
+            <div class="w-1/2">
+                <h1 class="text-5xl font-bold mb-6">
+                    Next-Gen Speed Detection with 
+                    <span class="gradient-text">AI Precision</span>
+                </h1>
+                <p class="text-xl text-gray-300 mb-8">
+                    Advanced point-to-point speed detection system powered by artificial intelligence. 
+                    Ensuring road safety with unmatched accuracy and real-time monitoring.
+                </p>
+                <div class="flex space-x-4">
+                    <button class="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-full transition duration-300 flex items-center">
+                        <i class="fas fa-play-circle mr-2"></i>
+                        Watch Demo
+                    </button>
+                    <button class="border border-white hover:bg-white hover:text-black px-8 py-3 rounded-full transition duration-300">
+                        Learn More
+                    </button>
+                </div>
+            </div>
+            <div class="w-1/2 relative">
+                <div class="radar-ping absolute inset-0"></div>
+                <img src="/api/placeholder/600/400" alt="Speed Detection System" class="rounded-lg shadow-2xl">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="relative z-10 bg-black bg-opacity-50 py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-12">Core Features</h2>
+            <div class="grid grid-cols-3 gap-8">
+                <div class="glass-card p-6 rounded-lg">
+                    <i class="fas fa-camera text-4xl text-blue-500 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Dual Camera System</h3>
+                    <p class="text-gray-300">High-precision cameras for accurate vehicle detection and tracking.</p>
+                </div>
+                <div class="glass-card p-6 rounded-lg">
+                    <i class="fas fa-microchip text-4xl text-green-500 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">AI-Powered Analysis</h3>
+                    <p class="text-gray-300">Advanced machine learning algorithms for real-time speed calculations.</p>
+                </div>
+                <div class="glass-card p-6 rounded-lg">
+                    <i class="fas fa-bell text-4xl text-yellow-500 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Instant Alerts</h3>
+                    <p class="text-gray-300">Real-time notifications for speed violations and system updates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="relative z-10 container mx-auto px-6 py-20">
+        <h2 class="text-3xl font-bold text-center mb-12">How It Works</h2>
+        <div class="flex justify-center">
+            <div class="relative">
+                <div class="flex space-x-8">
+                    <div class="glass-card p-6 rounded-lg text-center">
+                        <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">1</div>
+                        <h3 class="font-bold mb-2">Vehicle Detection</h3>
+                        <p class="text-sm text-gray-300">AI cameras detect and classify vehicles at entry point</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-lg text-center">
+                        <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">2</div>
+                        <h3 class="font-bold mb-2">Time Tracking</h3>
+                        <p class="text-sm text-gray-300">System records precise entry and exit timestamps</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-lg text-center">
+                        <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">3</div>
+                        <h3 class="font-bold mb-2">Speed Calculation</h3>
+                        <p class="text-sm text-gray-300">AI calculates average speed between points</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Create speed lines effect
+        function createSpeedLines() {
+            const container = document.getElementById('speedLines');
+            for (let i = 0; i < 50; i++) {
+                const line = document.createElement('div');
+                line.className = 'speed-line';
+                line.style.left = `${Math.random() * 100}%`;
+                line.style.animationDelay = `${Math.random() * 3}s`;
+                container.appendChild(line);
+            }
+        }
+
+        // Initialize effects
+        document.addEventListener('DOMContentLoaded', () => {
+            createSpeedLines();
+        });
+    </script>
+</body>
+</html>

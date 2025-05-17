@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeedGuard.AI - Next-Gen Speed Detection</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+        }
+        .input-style {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .input-style:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #3B82F6;
+            outline: none;
+        }
+        .gradient-text {
+            background: linear-gradient(45deg, #3B82F6, #60A5FA);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero-pattern {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .preview-container {
+            aspect-ratio: 16/9;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-opacity-90 bg-slate-900 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold gradient-text">SpeedGuard.AI</span>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#features" class="text-gray-300 hover:text-white px-3 py-2">Features</a>
+                    <a href="#upload" class="text-gray-300 hover:text-white px-3 py-2">Upload</a>
+                    <a href="#about" class="text-gray-300 hover:text-white px-3 py-2">About</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-pattern min-h-screen flex items-center pt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h1 class="text-6xl font-bold gradient-text mb-6">SpeedGuard.AI</h1>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+                    Revolutionary Point-to-Point Speed Detection System powered by 
+                    cutting-edge AI technology. Enhanced road safety through intelligent monitoring.
+                </p>
+                <a href="#upload" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-all transform hover:scale-105">
+                    Get Started
+                </a>
+            </div>
+
+            <!-- Features Section -->
+            <div id="features" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <div class="glass-effect p-6 float-animation">
+                    <div class="text-blue-400 mb-4">
+                        <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Real-time Processing</h3>
+                    <p class="text-gray-300">Instant speed detection and vehicle classification using YOLO technology</p>
+                </div>
+                <div class="glass-effect p-6 float-animation" style="animation-delay: 0.2s;">
+                    <div class="text-blue-400 mb-4">
+                        <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2"> Accuracy</h3>
+                    <p class="text-gray-300">Our model has an accuracy of 95% for license plate detection and 83% for vehicle classification.</p>
+                </div>
+                <div class="glass-effect p-6 float-animation" style="animation-delay: 0.4s;">
+                    <div class="text-blue-400 mb-4">
+                        <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Advanced Analytics</h3>
+                    <p class="text-gray-300">Comprehensive reporting and data visualization tools</p>
+                </div>
+            </div>
+
+            <!-- Upload Section -->
+            <div id="upload" class="glass-effect p-8 mb-16">
+                <h2 class="text-3xl font-bold mb-8 text-center">Upload Footage and Configure</h2>
+                <form method="POST" enctype="multipart/form-data">
+                    <!-- File Upload -->
+                    <div class="mb-8">
+                        <div class="glass-effect p-8 text-center cursor-pointer hover:bg-opacity-10 hover:bg-white transition-all">
+                            <input type="file" class="hidden" id="camera_file" name="camera_file" accept=".mp4,.avi,.jpg,.png" required 
+                                onchange="previewFile(event)">
+                            <label for="camera_file" class="cursor-pointer">
+                                <div class="text-blue-400 mb-2">
+                                    <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                                    </svg>
+                                </div>
+                                <span class="text-gray-300">Drag and drop your file here or click to browse</span>
+                            </label>
+                        </div>
+                        
+                        <!-- File Preview -->
+                        <div id="preview" class="mt-6 hidden">
+                            <h4 class="text-lg font-semibold mb-3">Preview</h4>
+                            <div class="preview-container rounded-lg overflow-hidden">
+                                <img id="image-preview" class="hidden w-full h-full object-cover">
+                                <video id="video-preview" class="hidden w-full h-full" controls>
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Speed Limits -->
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-semibold mb-6">Speed Limits Configuration</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                            <div class="glass-effect p-4">
+                                <label class="block text-gray-300 mb-2">Car</label>
+                                <input type="number" class="w-full p-3 input-style" name="car_speed" value="{{ speed_limits.car }}" required>
+                            </div>
+                            <div class="glass-effect p-4">
+                                <label class="block text-gray-300 mb-2">Motorcycle</label>
+                                <input type="number" class="w-full p-3 input-style" name="motorcycle_speed" value="{{ speed_limits.motorcycle }}" required>
+                            </div>
+                            <div class="glass-effect p-4">
+                                <label class="block text-gray-300 mb-2">Bus</label>
+                                <input type="number" class="w-full p-3 input-style" name="bus_speed" value="{{ speed_limits.bus }}" required>
+                            </div>
+                            <div class="glass-effect p-4">
+                                <label class="block text-gray-300 mb-2">Truck</label>
+                                <input type="number" class="w-full p-3 input-style" name="truck_speed" value="{{ speed_limits.truck }}" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-lg transition-all transform hover:scale-[1.02] text-lg">
+                        Process Footage
+                    </button>
+                </form>
+            </div>
+
+            <!-- About Section -->
+            <div id="about" class="glass-effect p-8 mb-16">
+                <h2 class="text-3xl font-bold mb-6">About SpeedGuard.AI</h2>
+                <p class="text-gray-300 leading-relaxed mb-6">
+                    SpeedGuard.AI represents the convergence of cutting-edge artificial intelligence and traffic safety technology. 
+                    Our system employs YOLO (You Only Look Once) object detection algorithm for real-time vehicle identification 
+                    and EasyOCR for precise license plate recognition, enabling accurate point-to-point speed calculation.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-effect p-6">
+                        <h3 class="text-xl font-bold mb-3">Core Technology</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>• YOLO-based object detection</li>
+                            <li>• EasyOCR implementation</li>
+                            <li>• Real-time processing capabilities</li>
+                            <li>• Multi-vehicle classification</li>
+                        </ul>
+                    </div>
+                    <div class="glass-effect p-6">
+                        <h3 class="text-xl font-bold mb-3">Key Benefits</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>• Enhanced road safety</li>
+                            <li>• Accurate speed monitoring</li>
+                            <li>• Automated violation detection</li>
+                            <li>• Comprehensive analytics</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function previewFile(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('preview');
+            const imagePreview = document.getElementById('image-preview');
+            const videoPreview = document.getElementById('video-preview');
+
+            // Show preview container
+            preview.classList.remove('hidden');
+
+            // Hide both previews initially
+            imagePreview.classList.add('hidden');
+            videoPreview.classList.add('hidden');
+
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            } else if (file.type.startsWith('video/')) {
+                const url = URL.createObjectURL(file);
+                videoPreview.src = url;
+                videoPreview.classList.remove('hidden');
+            }
+        }
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                const navHeight = document.querySelector('nav').offsetHeight;
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections for animation
+        document.querySelectorAll('.glass-effect').forEach(section => {
+            section.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-1000');
+            observer.observe(section);
+        });
+
+        // File drag and drop handling
+        const dropZone = document.querySelector('label[for="camera_file"]').parentElement;
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            dropZone.classList.add('bg-blue-600', 'bg-opacity-10');
+        }
+
+        function unhighlight(e) {
+            dropZone.classList.remove('bg-blue-600', 'bg-opacity-10');
+        }
+
+        dropZone.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const file = dt.files[0];
+            const fileInput = document.getElementById('camera_file');
+            
+            fileInput.files = dt.files;
+            previewFile({ target: { files: [file] } });
+        }
+// Form validation and submission feedback
+const form = document.querySelector('form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Basic validation
+            const fileInput = document.getElementById('camera_file');
+            const speedInputs = form.querySelectorAll('input[type="number"]');
+            let isValid = true;
+
+            if (!fileInput.files[0]) {
+                alert('Please select a file to upload');
+                isValid = false;
+            }
+
+            speedInputs.forEach(input => {
+                if (input.value < 0 || input.value > 200) {
+                    alert('Speed limits must be between 0 and 200 km/h');
+                    isValid = false;
+                }
+            });
+
+            if (isValid) {
+                // Show loading state
+                const submitButton = form.querySelector('button[type="submit"]');
+                const originalText = submitButton.innerHTML;
+                submitButton.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Processing...
+                `;
+                submitButton.disabled = true;
+
+                try {
+                    // Submit the form
+                    const formData = new FormData(form);
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        // Show success message briefly
+                        submitButton.innerHTML = `
+                            <svg class="w-6 h-6 text-white inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Success!
+                        `;
+                        submitButton.classList.remove('bg-blue-600');
+                        submitButton.classList.add('bg-green-600');
+
+                        // Redirect after a brief delay to show success message
+                        setTimeout(() => {
+                            // Check if response contains a redirect URL
+                            const redirectUrl = response.headers.get('Location') || '/processing';  // Default fallback URL
+                            window.location.href = redirectUrl;
+                        }, 1000);
+                    } else {
+                        throw new Error('Submission failed');
+                    }
+                } catch (error) {
+                    // Show error message
+                    submitButton.innerHTML = `
+                        <svg class="w-6 h-6 text-white inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                        Error - Try Again
+                    `;
+                    submitButton.classList.remove('bg-blue-600');
+                    submitButton.classList.add('bg-red-600');
+
+                    // Reset button after delay
+                    setTimeout(() => {
+                        submitButton.innerHTML = originalText;
+                        submitButton.disabled = false;
+                        submitButton.classList.remove('bg-green-600', 'bg-red-600');
+                        submitButton.classList.add('bg-blue-600');
+                    }, 3000);
+                }
+            }
+        });

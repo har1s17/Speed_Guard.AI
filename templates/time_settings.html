@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Settings</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        .gradient-text {
+            background: linear-gradient(45deg, #6366f1, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.15);
+        }
+        .hover-lift {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hover-lift:hover {
+            transform: translateY(-2px);
+        }
+        .premium-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .premium-input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+        .premium-button {
+            background: linear-gradient(135deg, #6366f1, #3b82f6);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+            transition: all 0.3s ease;
+        }
+        .premium-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3);
+        }
+        .premium-table {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        .premium-table th {
+            background: rgba(255, 255, 255, 0.05);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .premium-table tr {
+            transition: all 0.3s ease;
+        }
+        .premium-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        body {
+            background: linear-gradient(135deg, #1e1b4b, #1e293b);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-white">
+    <div class="container mx-auto px-6 py-20">
+        <!-- Title and Edit Button -->
+        <div class="flex justify-between items-center mb-12">
+            <h1 class="text-5xl font-bold gradient-text tracking-tight">Time and Distance Settings</h1>
+            <button id="edit-config-btn" class="premium-button px-8 py-3 rounded-full text-white font-semibold text-sm uppercase tracking-wider">
+                Edit Configuration
+            </button>
+        </div>
+
+        <!-- Configuration Section -->
+        <div class="glass-card p-8 rounded-2xl mb-12">
+            <h2 class="text-3xl font-bold mb-6 gradient-text">Current Configuration</h2>
+            <div id="config-display" class="space-y-4 text-lg">
+                <div class="flex items-center space-x-4">
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-indigo-500/20">
+                        <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z"></path>
+                        </svg>
+                    </div>
+                    <p class="text-gray-300"><span class="font-semibold text-white">Distance Between Cameras:</span> {{ config['distance'] }} meters</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-500/20">
+                        <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <p class="text-gray-300"><span class="font-semibold text-white">Time Difference Between Cameras:</span> {{ config['time_difference'] }} seconds</p>
+                </div>
+            </div>
+
+            <!-- Edit Form -->
+            <form id="config-form" method="POST" class="hidden mt-8 space-y-6">
+                <div class="space-y-4">
+                    <label class="block text-lg font-medium text-gray-300">Distance Between Cameras (meters)</label>
+                    <input type="number" id="distance-input" class="premium-input w-full p-4 rounded-xl bg-white/5 text-white" name="distance" value="{{ config['distance'] }}" required>
+                </div>
+                <div class="space-y-4">
+                    <label class="block text-lg font-medium text-gray-300">Time Difference Between Cameras (seconds)</label>
+                    <input type="number" id="time-difference-input" class="premium-input w-full p-4 rounded-xl bg-white/5 text-white" name="time_difference" value="{{ config['time_difference'] }}" required>
+                </div>
+                <button type="submit" id="save-and-proceed-btn" class="premium-button w-full py-4 rounded-xl text-white font-semibold text-lg">
+                    Save and Proceed
+                </button>
+            </form>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="hidden">
+            <div class="flex items-center justify-center space-x-4 text-lg text-gray-400">
+                <svg class="animate-spin h-6 w-6 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>Saving configuration and proceeding...</span>
+            </div>
+        </div>
+
+        <!-- Vehicles on Highway Section -->
+        <div class="glass-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold mb-6 gradient-text">Vehicles Currently on Highway</h2>
+            {% if vehicles_on_highway %}
+                <div class="overflow-x-auto">
+                    <table class="premium-table w-full">
+                        <thead>
+                            <tr>
+                                <th class="py-4 px-6 rounded-tl-xl">License Plate</th>
+                                <th class="py-4 px-6">Vehicle Type</th>
+                                <th class="py-4 px-6 rounded-tr-xl">Entry Time</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-800">
+                            {% for vehicle in vehicles_on_highway %}
+                                <tr>
+                                    <td class="py-4 px-6">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-2 h-2 rounded-full bg-indigo-500"></div>
+                                            <span>{{ vehicle.license_plate }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-6">{{ vehicle.vehicle_type }}</td>
+                                    <td class="py-4 px-6">{{ vehicle.entry_time }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-12 text-gray-400">
+                    <svg class="mx-auto h-12 w-12 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4M8 16l-4-4 4-4"></path>
+                    </svg>
+                    <p class="text-lg">No vehicles currently on the highway.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        const editConfigBtn = document.getElementById('edit-config-btn');
+        const configForm = document.getElementById('config-form');
+        const timeDifferenceInput = document.getElementById('time-difference-input');
+        const saveAndProceedBtn = document.getElementById('save-and-proceed-btn');
+
+        editConfigBtn.addEventListener('click', () => {
+            configForm.classList.toggle('hidden');
+        });
+
+        timeDifferenceInput.addEventListener('input', () => {
+            saveAndProceedBtn.disabled = timeDifferenceInput.value.trim() === '';
+        });
+
+        saveAndProceedBtn.addEventListener('click', () => {
+            document.getElementById('loading').classList.remove('hidden');
+            configForm.classList.remove('hidden');
+            configForm.submit();
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

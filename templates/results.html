@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Detection Analytics Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .gradient-bg {
+            background: linear-gradient(120deg, #1a365d 0%, #2d3748 100%);
+        }
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header Section -->
+        <div class="glass-effect rounded-lg p-6 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-800">
+                        <i class="fas fa-tachometer-alt mr-2"></i>Speed Detection Analytics
+                    </h1>
+                    <p class="text-gray-600 mt-2">Real-time traffic monitoring system</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="{{ url_for('download_report') }}" 
+                       class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center">
+                        <i class="fas fa-download mr-2"></i>
+                        Download Report
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Table -->
+        {% if results %}
+        <div class="glass-effect rounded-lg p-6">
+            <div class="table-container">
+                <table class="min-w-full">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                                <i class="fas fa-car mr-2"></i>Vehicle Type
+                            </th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                                <i class="fas fa-id-card mr-2"></i>License Plate
+                            </th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                                <i class="fas fa-clock mr-2"></i>Entry Time
+                            </th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                                <i class="fas fa-clock mr-2"></i>Exit Time
+                            </th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                                <i class="fas fa-gauge-high mr-2"></i>Speed (km/h)
+                            </th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                                <i class="fas fa-exclamation-triangle mr-2"></i>Limit (km/h)
+                            </th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                                <i class="fas fa-warning mr-2"></i>Over Speed
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        {% for row in results %}
+                        <tr class="{% if row.over_speed %}bg-red-50 hover:bg-red-100{% else %}hover:bg-gray-50{% endif %} transition duration-150">
+                            <td class="px-6 py-4 text-sm text-gray-800">{{ row.vehicle_type }}</td>
+                            <td class="px-6 py-4 text-sm font-mono text-gray-800">{{ row.license_plate_text }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-800">{{ row.entry_time }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-800">{{ row.exit_time }}</td>
+                            <td class="px-6 py-4 text-sm font-semibold {% if row.over_speed %}text-red-600{% else %}text-green-600{% endif %}">
+                                {{ row.speed_kmh }}
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-800">{{ row.speed_limit }}</td>
+                            <td class="px-6 py-4">
+                                {% if row.over_speed %}
+                                <span class="px-3 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full">
+                                    <i class="fas fa-exclamation-circle mr-1"></i>Yes
+                                </span>
+                                {% else %}
+                                <span class="px-3 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">
+                                    <i class="fas fa-check-circle mr-1"></i>No
+                                </span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <div class="glass-effect rounded-lg p-12 text-center">
+            <i class="fas fa-camera text-4xl text-gray-400 mb-4"></i>
+            <p class="text-xl text-gray-600">No results available yet. Please process footage from both cameras.</p>
+            <div class="animate-pulse mt-4 text-blue-600">
+                <i class="fas fa-sync-alt mr-2"></i>Waiting for data...
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <footer class="mt-8 text-center text-gray-400 py-4">
+        <p class="text-sm">© 2025 Speed Detection System. All rights reserved.</p>
+    </footer>
+</body>
+</html>
