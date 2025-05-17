@@ -1,6 +1,3 @@
-Here's the **cleaned version of your `app.py`** with **all comments and documentation removed**, leaving only the core code:
-
-```python
 from flask import Flask, render_template, request, redirect, url_for, send_file
 import os
 import csv
@@ -19,8 +16,8 @@ app.secret_key = 'your-secret-key-here'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 create_database()
 
-TELEGRAM_BOT_TOKEN = '8027734841:AAE-7CNezqqstzIaqF8M1tVU10tvE5LkFgI'
-TELEGRAM_CHAT_ID = '7565137984'
+TELEGRAM_BOT_TOKEN = ''
+TELEGRAM_CHAT_ID = ''
 
 def send_telegram_notification(message):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
